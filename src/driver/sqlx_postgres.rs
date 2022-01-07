@@ -1,3 +1,4 @@
+use std::ops::Deref;
 use std::{future::Future, pin::Pin, sync::Arc};
 
 use sqlx::{
@@ -11,7 +12,7 @@ use tracing::instrument;
 
 use crate::{
     debug_print, error::*, executor::*, ConnectOptions, DatabaseConnection, DatabaseTransaction,
-    QueryStream, Statement, TransactionError,
+    QueryStream, SqlxConnectOptions, Statement, TransactionError,
 };
 
 use super::sqlx_common::*;
@@ -42,10 +43,15 @@ impl SqlxPostgresConnector {
     /// Add configuration options for the MySQL database
     #[instrument(level = "trace")]
     pub async fn connect(options: ConnectOptions) -> Result<DatabaseConnection, DbErr> {
-        let mut opt = options
-            .url
-            .parse::<PgConnectOptions>()
-            .map_err(|e| DbErr::Conn(e.to_string()))?;
+        let mut opt = match &options.connect_options {
+            SqlxConnectOptions::Postgres(opts) => opts.clone(),
+            _ => {
+                return Err(DbErr::Conn(
+                    "To connect to mysql you must have PgConnectOptions inside options!".into(),
+                ))
+            }
+        };
+
         if !options.sqlx_logging {
             use sqlx::ConnectOptions;
             opt.disable_statement_logging();

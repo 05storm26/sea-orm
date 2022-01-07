@@ -1,3 +1,4 @@
+use std::ops::Deref;
 use std::{future::Future, pin::Pin, sync::Arc};
 
 use sqlx::{
@@ -11,7 +12,7 @@ use tracing::instrument;
 
 use crate::{
     debug_print, error::*, executor::*, ConnectOptions, DatabaseConnection, DatabaseTransaction,
-    QueryStream, Statement, TransactionError,
+    QueryStream, SqlxConnectOptions, Statement, TransactionError,
 };
 
 use super::sqlx_common::*;
@@ -41,12 +42,16 @@ impl SqlxSqliteConnector {
 
     /// Add configuration options for the SQLite database
     #[instrument(level = "trace")]
-    pub async fn connect(options: ConnectOptions) -> Result<DatabaseConnection, DbErr> {
-        let mut options = options;
-        let mut opt = options
-            .url
-            .parse::<SqliteConnectOptions>()
-            .map_err(|e| DbErr::Conn(e.to_string()))?;
+    pub async fn connect(mut options: ConnectOptions) -> Result<DatabaseConnection, DbErr> {
+        let mut opt = match &options.connect_options {
+            SqlxConnectOptions::Sqlite(opts) => opts.clone(),
+            _ => {
+                return Err(DbErr::Conn(
+                    "To connect to mysql you must have SqliteConnectOptions inside options!".into(),
+                ))
+            }
+        };
+
         if !options.sqlx_logging {
             use sqlx::ConnectOptions;
             opt.disable_statement_logging();
