@@ -3,7 +3,7 @@ use sea_query::{Alias, BinOper, DynIden, Expr, SeaRc, SelectStatement, SimpleExp
 use std::str::FromStr;
 
 /// Defines a Column for an Entity
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Hash)]
 pub struct ColumnDef {
     pub(crate) col_type: ColumnType,
     pub(crate) null: bool,
@@ -12,7 +12,7 @@ pub struct ColumnDef {
 }
 
 /// The type of column as defined in the SQL format
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Hash)]
 pub enum ColumnType {
     /// `CHAR` type of specified fixed length
     Char(Option<u32>),

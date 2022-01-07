@@ -75,7 +75,7 @@ impl SqlxConnectOptions {
 }
 
 /// Defines the configuration options of a database
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ConnectOptions {
     /// The database sqlx::ConnectOptions used to connect to the database.
     pub(crate) connect_options: SqlxConnectOptions,

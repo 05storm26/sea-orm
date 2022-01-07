@@ -4,7 +4,7 @@ mod entity;
 
 /// This is a helper struct to convert [`EntityTrait`](crate::EntityTrait)
 /// into different [`sea_query`](crate::sea_query) statements.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub struct Schema {
     backend: DbBackend,
 }

@@ -1,6 +1,6 @@
 use crate::entity::prelude::*;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub struct CakeToFilling;
 
 impl Linked for CakeToFilling {
@@ -16,7 +16,7 @@ impl Linked for CakeToFilling {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub struct CakeToFillingVendor;
 
 impl Linked for CakeToFillingVendor {

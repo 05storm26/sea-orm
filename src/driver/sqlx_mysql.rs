@@ -18,7 +18,7 @@ use crate::{
 use super::sqlx_common::*;
 
 /// Defines the [sqlx::mysql] connector
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub struct SqlxMySqlConnector;
 
 /// Defines a sqlx MySQL pool

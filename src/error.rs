@@ -1,5 +1,5 @@
 /// An error from unsuccessful database operations
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub enum DbErr {
     /// There was a problem with the database connection
     Conn(String),
@@ -31,7 +31,7 @@ impl std::fmt::Display for DbErr {
 }
 
 /// An error from a failed column operation when trying to convert the column to a string
-#[derive(Debug, Clone)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub struct ColumnFromStrErr(pub String);
 
 impl std::error::Error for ColumnFromStrErr {}

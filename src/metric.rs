@@ -5,7 +5,7 @@ pub(crate) type Callback = Arc<dyn Fn(&Info<'_>) + Send + Sync>;
 #[allow(unused_imports)]
 pub(crate) use inner::{metric, metric_ok};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 /// Query execution infos
 pub struct Info<'a> {
     /// Query executiuon duration

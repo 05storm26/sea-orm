@@ -27,7 +27,7 @@ pub trait TryGetable: Sized {
 }
 
 /// An error from trying to get a row from a Model
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone, Hash)]
 pub enum TryGetError {
     /// A database error was encountered as defined in [crate::DbErr]
     DbErr(DbErr),

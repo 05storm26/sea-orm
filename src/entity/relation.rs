@@ -42,7 +42,7 @@ where
 }
 
 /// Defines a relationship
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RelationDef {
     /// The type of relationship defined in [RelationType]
     pub rel_type: RelationType,
