@@ -35,6 +35,8 @@ pub enum TryGetError {
     Null,
 }
 
+impl std::error::Error for TryGetError {}
+
 impl From<TryGetError> for DbErr {
     fn from(e: TryGetError) -> DbErr {
         match e {
